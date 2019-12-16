@@ -1,0 +1,130 @@
+#include <stdio.h>
+#include <stdlib.h>
+
+void reverse2(char* string, char* string2){
+   int count = 0;
+   int begin = 0;
+   int end = 0;
+
+   while (string[count] != '\0'){
+       count++;
+   }
+
+   end = count - 1;
+
+   for(begin = 0; begin < count; begin++){
+       string2[begin] = string[end];
+       end--;
+   }
+
+   string2[begin] = '\0';
+
+
+}
+
+int firstVowel(char* string){
+    int index = -1;
+    int count = 0;
+    while (string[count] != '\0'){
+       count++;
+   }
+
+    for(int i = 0; i < count; i++){
+        if (string[i] == 'a' ||
+            string[i] == 'e' ||
+            string[i] == 'i' ||
+            string[i] == 'o' ||
+            string[i] == 'u') {
+                return i;
+
+            }
+    }
+
+    return index;
+}
+
+char* concat(char *first, char *second){
+    char *pointer;
+    int c = 0;
+    int d = 0;
+    while(first[c] != '\0'){
+        c++;
+    }
+    while(second[d] != '\0'){
+        d++;
+    }
+    pointer = malloc(sizeof(char) * (c + d + 1));
+
+    for (int i = 0; i < c; i++){
+        *(pointer + i) = *(first);
+        first++;
+    }
+    for (int j = 0; j < d; j++){
+        *(pointer + j + c) = *(second);
+        second++;
+    }
+    *(pointer+c+d) = '\0';
+    return pointer;
+}
+
+char* substring(char* original, int start, int end){
+   char *pointer;
+   int c;
+   int length = end - start;
+   pointer = malloc(length+ 1);
+
+
+   for (c = 0 ; c < length ; c++)
+   {
+      *(pointer+c) = *(original+start);
+      original++;
+   }
+
+   *(pointer+c) = '\0';
+
+   return pointer;
+}
+
+char* pigLatin(char* original){
+    int length = 0;
+    while (original != '\0'){
+        length++;
+    }
+
+
+    int vowel = firstVowel(original);
+
+    char* front = malloc(vowel);
+    front = substring(original,0,vowel);
+    char* remaining = malloc(length - vowel);
+    remaining = substring(original, vowel, length);
+
+    front = concat(front, "ay");
+    char* final = malloc(length + 2);
+    final = concat(remaining, front);
+    return final;
+}
+
+int most(char* string){
+    int* array =(int*) malloc(sizeof(int)*10);
+    int length = 0;
+    while (string[length] != '\0'){
+        length++;
+    }
+    int count = 0;
+    int index = 0;
+    for(int i = 0; i < length; i++){
+        int currCount = 0;
+        for (int j = 0; j < length; j++){
+            if (string[i] == string[j]){
+                currCount++;
+            }
+        }
+        if (currCount > count){
+            count = currCount;
+            index = i;
+        }
+    }
+
+    return string[index] - '0';
+}
